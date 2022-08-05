@@ -40,7 +40,6 @@ const mostrarPublicaciones = async (req, res= response) => {
     }
     res.json({
         count,
-        count,
         publicaciones
     })
 }

@@ -308,73 +308,73 @@ const compartir = async (id, req, res=response) => {
 }
 
 const mostrarTodasLasPublicaciones = async (idd,req,res=response) => {//........................................
-    const id = req.usuario._id;
-    const limite = idd*20;
-    const salto = limite-20; 
-    const [ publicacion, count ,countTotal] = await Promise.all([
-        Publicacion.find({
-            $or:[{estado: true}],
-        })
-        .populate('usuario')
-        .sort({_id:-1})
-        .skip (Number(salto))
-        .limit(Number(limite)),
-        Publicacion.countDocuments({
-            $or:[{estado: true}]
-        })
-        .skip (Number(salto))
-        .limit(Number(limite)),
-        Publicacion.countDocuments({
-            $or:[{estado: true}]
-        })
-    ])
+    // const id = req.usuario._id;
+    // const limite = idd*20;
+    // const salto = limite-20; 
+    // const [ publicacion, count ,countTotal] = await Promise.all([
+    //     Publicacion.find({
+    //         $or:[{estado: true}],
+    //     })
+    //     .populate('usuario')
+    //     .sort({_id:-1})
+    //     .skip (Number(salto))
+    //     .limit(Number(limite)),
+    //     Publicacion.countDocuments({
+    //         $or:[{estado: true}]
+    //     })
+    //     .skip (Number(salto))
+    //     .limit(Number(limite)),
+    //     Publicacion.countDocuments({
+    //         $or:[{estado: true}]
+    //     })
+    // ])
 
-    const likes = await Like.find({
-        $or:[{ usuarioPublicacion: ObjectId(id)}],
-        $and:[{estado:true}]
-    })
-    const compartir = await Compartir.find({
-        $or:[{usuario:ObjectId(id)}],
-        $and:[{estado: true}]
-    })
-    const reportados = await Reportar.find({
-        $or:[{usuario:ObjectId(id)}],
-        $and:[{estado: true}]
-    })
-    const objAux =[]
-    for(const iterator of publicacion){
-        const auxObj = await new Publicacion(iterator);
-        console.log('AUXoBJ: ',auxObj);
-        for (const iterator2 of likes) {
-            if((iterator2.publicacion+'') === (iterator._id +'')){
-                auxObj.like=true;
-                console.log('iteratir2',iterator2);
-            }
-        }
-        for (const iterator3 of compartir) {
-            if((iterator3.publicacion+'') === (iterator._id+'')){
-                auxObj.compartir = true;
-                console.log('iteratir3',iterator3);
-            }
-        }
-        for (const iterator3 of reportados) {
-            if((iterator3.publicacion+'') === (iterator._id+'')){
-                auxObj.reportar = true;
-                console.log('iteratir3',iterator3);
-            }
-        }
-        objAux.push(auxObj);
-    }
-    if(count === 0 ){
-        return res.json({
-            msg:'No existe publicaiones'
-        })
-    }
-    res.json({
-        countTotal,
-        count,
-        objAux,
-    })
+    // const likes = await Like.find({
+    //     $or:[{ usuarioPublicacion: ObjectId(id)}],
+    //     $and:[{estado:true}]
+    // })
+    // const compartir = await Compartir.find({
+    //     $or:[{usuario:ObjectId(id)}],
+    //     $and:[{estado: true}]
+    // })
+    // const reportados = await Reportar.find({
+    //     $or:[{usuario:ObjectId(id)}],
+    //     $and:[{estado: true}]
+    // })
+    // const objAux =[]
+    // for(const iterator of publicacion){
+    //     const auxObj = await new Publicacion(iterator);
+    //     console.log('AUXoBJ: ',auxObj);
+    //     for (const iterator2 of likes) {
+    //         if((iterator2.publicacion+'') === (iterator._id +'')){
+    //             auxObj.like=true;
+    //             console.log('iteratir2',iterator2);
+    //         }
+    //     }
+    //     for (const iterator3 of compartir) {
+    //         if((iterator3.publicacion+'') === (iterator._id+'')){
+    //             auxObj.compartir = true;
+    //             console.log('iteratir3',iterator3);
+    //         }
+    //     }
+    //     for (const iterator3 of reportados) {
+    //         if((iterator3.publicacion+'') === (iterator._id+'')){
+    //             auxObj.reportar = true;
+    //             console.log('iteratir3',iterator3);
+    //         }
+    //     }
+    //     objAux.push(auxObj);
+    // }
+    // if(count === 0 ){
+    //     return res.json({
+    //         msg:'No existe publicaiones'
+    //     })
+    // }
+    // res.json({
+    //     countTotal,
+    //     count,
+    //     objAux,
+    // })
 }
 
 const mostrarUnaPublicacionX = async (id,req,res=response) => {
