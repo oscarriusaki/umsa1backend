@@ -317,13 +317,13 @@ const mostrarTodasLasPublicaciones = async (idd,req,res=response) => {//........
         })
         .populate('usuario')
         .sort({_id:-1})
-        .skip (Number(salto))
-        .limit(Number(limite)),
+        /* .skip (Number(salto))
+        .limit(Number(limite)) */,
         Publicacion.countDocuments({
             $or:[{estado: true}]
-        })
-        .skip (Number(salto))
-        .limit(Number(limite)),
+        }),
+    /*     .skip (Number(salto))
+        .limit(Number(limite)), */
         Publicacion.countDocuments({
             $or:[{estado: true}]
         })
