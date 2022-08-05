@@ -33,14 +33,13 @@ const mostrarPublicaciones = async (req, res= response) => {
             $or:[{estado:true}]
         })
     ])
-        
     if(count === 0){
         return res.json({
             msg:'No existe publicaciones :('
         })
     }
-
     res.json({
+        count,
         count,
         publicaciones
     })
