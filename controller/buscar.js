@@ -1453,13 +1453,8 @@ const buscarContarPorEnfermedad = async (c,req,res) =>{
         { $group: { _id: "$tipoEnfermedad", total:{$sum:1} } },
         { $sort: { total:-1} }
     ])
-    // data.map((i) =>{
-    //     console.log(i);
-    //     this.enfermedadesV[i._id] = i.total;
-    //   })
     res.json({
-        data,
-        enfermedadesV,
+        data
     })
 }
 const buscar = async( req, res= response) =>{
