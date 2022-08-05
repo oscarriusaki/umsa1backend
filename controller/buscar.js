@@ -309,8 +309,8 @@ const compartir = async (id, req, res=response) => {
 
 const mostrarTodasLasPublicaciones = async (idd,req,res=response) => {//........................................
     const id = req.usuario._id;
-    const limite = idd*20;
-    const salto = limite-20; 
+    let limite = idd*20;
+    let salto = limite-20; 
     if(salto===0){
         salto = 1;
     }
