@@ -344,7 +344,6 @@ const mostrarTodasLasPublicaciones = async (idd,req,res=response) => {//........
     const objAux =[]
     for(const iterator of publicacion){
         const auxObj = await new Publicacion(iterator);
-        console.log('AUXoBJ: ',auxObj);
         for (const iterator2 of likes) {
             if((iterator2.publicacion+'') === (iterator._id +'')){
                 auxObj.like=true;
@@ -354,13 +353,11 @@ const mostrarTodasLasPublicaciones = async (idd,req,res=response) => {//........
         for (const iterator3 of compartir) {
             if((iterator3.publicacion+'') === (iterator._id+'')){
                 auxObj.compartir = true;
-                console.log('iteratir3',iterator3);
             }
         }
         for (const iterator3 of reportados) {
             if((iterator3.publicacion+'') === (iterator._id+'')){
                 auxObj.reportar = true;
-                console.log('iteratir3',iterator3);
             }
         }
         objAux.push(auxObj);
