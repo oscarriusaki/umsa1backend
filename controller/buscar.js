@@ -311,19 +311,22 @@ const mostrarTodasLasPublicaciones = async (idd,req,res=response) => {//........
     const id = req.usuario._id;
     const limite = idd*20;
     const salto = limite-20; 
+    if(salto===0){
+        salto = 1;
+    }
     const [ publicacion, count ,countTotal] = await Promise.all([
         Publicacion.find({
             $or:[{estado: true}],
         })
         .populate('usuario')
         .sort({_id:-1})
-        /* .skip (Number(salto))
-        .limit(Number(limite)) */,
+        .skip (Number(salto))
+        .limit(Number(limite)),
         Publicacion.countDocuments({
             $or:[{estado: true}]
-        }),
-    /*     .skip (Number(salto))
-        .limit(Number(limite)), */
+        })
+        .skip (Number(salto))
+        .limit(Number(limite)),
         Publicacion.countDocuments({
             $or:[{estado: true}]
         })
