@@ -307,14 +307,23 @@ const compartir = async (id, req, res=response) => {
 
 }
 
-const mostrarTodasLasPublicaciones = async (req,res=response) => {
+const mostrarTodasLasPublicaciones = async (idd,req,res=response) => {//........................................
     const id = req.usuario._id;
-    const [ publicacion, count ] = await Promise.all([
+    const limite = idd*20;
+    const salto = limite-20; 
+    const [ publicacion, count ,countTotal] = await Promise.all([
         Publicacion.find({
             $or:[{estado: true}],
         })
         .populate('usuario')
-        .sort({_id:-1}),
+        .sort({_id:-1})
+        .skip (Number(salto))
+        .limit(Number(limite)),
+        Publicacion.countDocuments({
+            $or:[{estado: true}]
+        })
+        .skip (Number(salto))
+        .limit(Number(limite)),
         Publicacion.countDocuments({
             $or:[{estado: true}]
         })
@@ -362,8 +371,9 @@ const mostrarTodasLasPublicaciones = async (req,res=response) => {
         })
     }
     res.json({
+        countTotal,
         count,
-        objAux
+        objAux,
     })
 }
 
@@ -1443,13 +1453,10 @@ const buscarContarPorEnfermedad = async (c,req,res) =>{
         { $group: { _id: "$tipoEnfermedad", total:{$sum:1} } },
         { $sort: { total:-1} }
     ])
-
-
-    data.map((i) =>{
-        console.log(i);
-        this.enfermedadesV[i._id] = i.total;
-      })
-
+    // data.map((i) =>{
+    //     console.log(i);
+    //     this.enfermedadesV[i._id] = i.total;
+    //   })
     res.json({
         data,
         enfermedadesV,
@@ -1481,7 +1488,7 @@ const buscar = async( req, res= response) =>{
             compartir(id,req,res);
         break;
         case 'mostrarTodasLasPublicaciones':
-            mostrarTodasLasPublicaciones(req,res);
+            mostrarTodasLasPublicaciones(id,req,res);
         break;
         case 'mostrarPublicacionesDelUsuarioX':
             mostrarPublicacionesDelUsuarioX(req,res);
