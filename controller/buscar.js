@@ -304,16 +304,16 @@ const compartir = async (id, req, res=response) => {
         publicacionModificada,
         compartir
     })
-
 }
-
 const mostrarTodasLasPublicaciones = async (idd,req,res=response) => {//........................................
     const id = req.usuario._id;
     let limite = idd*20;
     let salto = limite-20; 
-    if(salto===0){
-        salto = 1;
-    }
+    // console.log('limite',limite);
+    // console.log('salto',salto);
+/*     if(salto===0){
+        salto = 0;
+    } */
     const [ publicacion, count ,countTotal] = await Promise.all([
         Publicacion.find({
             $or:[{estado: true}],
@@ -321,12 +321,12 @@ const mostrarTodasLasPublicaciones = async (idd,req,res=response) => {//........
         .populate('usuario')
         .sort({_id:-1})
         .skip (Number(salto))
-        .limit(Number(limite)),
+        .limit(Number(20)),
         Publicacion.countDocuments({
             $or:[{estado: true}]
         })
         .skip (Number(salto))
-        .limit(Number(limite)),
+        .limit(Number(20)),
         Publicacion.countDocuments({
             $or:[{estado: true}]
         })
