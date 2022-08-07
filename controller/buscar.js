@@ -413,29 +413,19 @@ const mostrarUnaPublicacionX = async (id,req,res=response) => {
         auxObj
     })
 }
-const mostrarPublicacionesDelUsuarioX = async (idd,req,res=response) => {
+const mostrarPublicacionesDelUsuarioX = async (req,res=response) => {
 
     const id = req.usuario._id;
-    let limite = idd*20;
-    let salto = limite-20; 
-
-    const [publicaciones,count,countTotal] = await Promise.all([
+    const [publicaciones,count] = await Promise.all([
         Publicacion.find({
             $or:[{estado: true}],
             $and:[{usuario: ObjectId(id)}]
         })
         .populate('usuario')
-        .sort({_id:-1})
-        .skip (Number(salto))
-        .limit(Number(20)),
+        .sort({_id:-1}),
         Publicacion.countDocuments({
             $or:[{estado: true}],
             $and:[{usuario: ObjectId(id)}]
-        })
-        .skip (Number(salto))
-        .limit(Number(20)),
-        Publicacion.countDocuments({
-            $or:[{estado: true}]
         })
     ])
     const [ likes, count2 ] = await Promise.all([
@@ -489,36 +479,27 @@ const mostrarPublicacionesDelUsuarioX = async (idd,req,res=response) => {
         })
     }
     res.json({
-        countTotal,
         count,
         objAux2
     })
 
 }
-const buscarLikeUsuariox = async(idd,req,res=response) =>{
+const buscarLikeUsuariox = async(req,res=response) =>{
     
     const idUsuarioLogueado = req.usuario._id;
-    let limite = idd*20;
-    let salto = limite-20; 
 
-    const [todasPublicaciones, count,countTotal] = await Promise.all([
+    const [todasPublicaciones, count] = await Promise.all([
         Publicacion.find({
             $or: [{estado:true}],
         })
         .populate('usuario')
         .sort({_id:-1})
-        .skip (Number(salto))
-        .limit(Number(20)),
+        ,
         Publicacion.countDocuments({
             $or: [{estado:true}],
         })
-        .skip (Number(salto))
-        .limit(Number(20)),
-        Publicacion.countDocuments({
-            $or:[{estado: true}]
-        })
+        ,
     ])
-
     const [likes,count22] = await Promise.all([
         Like.find({
             $or:[{estado:true}],
@@ -577,35 +558,24 @@ const buscarLikeUsuariox = async(idd,req,res=response) =>{
     }
 
     res.json({
-        countTotal,
         count2,
         axumostrar
     })
 
 } 
-const buscarCompartirUsusriox = async(idd,req,res=response) =>{
+const buscarCompartirUsusriox = async(req,res=response) =>{
 
     const id = req.usuario._id;
-    let limite = idd*20;
-    let salto = limite-20; 
     
-    const [publicacionesAux, count, countTotal] = await Promise.all([
+    const [publicacionesAux, count] = await Promise.all([
         Publicacion.find({
             $or:[{estado:true}]
         })
         .populate('usuario')
-        .sort({_id:-1})
-        .skip (Number(salto))
-        .limit(Number(20))
-        ,Publicacion.countDocuments({
-            $or:[{estado:true}]
-        })
-        .skip (Number(salto))
-        .limit(Number(20))
-        ,
+        .sort({_id:-1}),
         Publicacion.countDocuments({
-            $or:[{estado: true}]
-        })
+            $or:[{estado:true}]
+        }),
     ])
 
     const [ compartidos, count22] = await Promise.all([
@@ -663,40 +633,25 @@ const buscarCompartirUsusriox = async(idd,req,res=response) =>{
                 count2++;
             }
         }
-    
     }
-
     res.json({
-        countTotal,
         count2, 
         contenido
     })
 }
-const buscarConParametroX = async(idd,busqueda='',req,res=response) =>{ 
+const buscarConParametroX = async(busqueda='',req,res=response) =>{ 
     const id = req.usuario._id;
-    let limite = idd*20;
-    let salto = limite-20; 
 
-    const [ publicacion, count, countTotal] = await Promise.all([
+    const [ publicacion, count] = await Promise.all([
         Publicacion.find({
             $or:[{estado: true}],
         })
         .populate('usuario')
-        .sort({_id:-1})
-        .skip (Number(salto))
-        .limit(Number(20))
-        ,
+        .sort({_id:-1}),
         Publicacion.countDocuments({
             $or:[{estado: true}]
-        })
-        .skip (Number(salto))
-        .limit(Number(20))
-        ,
-        Publicacion.countDocuments({
-            $or:[{estado: true}]
-        })
+        }),
     ])
-
     const likes = await Like.find({
         $or:[{ usuarioPublicacion: ObjectId(id)}],
         $and:[{estado:true}]
@@ -737,7 +692,7 @@ const buscarConParametroX = async(idd,busqueda='',req,res=response) =>{
             msg:'No existe publicaiones'
         })
     }
-    const objAux3 = []
+    const objAux3 = [];
     let contadorAuxiliar=0;
     for (const iterator of objAux) {
         const parametroAuxiliar = await new Publicacion(iterator)
@@ -749,34 +704,23 @@ const buscarConParametroX = async(idd,busqueda='',req,res=response) =>{
     }
 
     res.json({
-        countTotal,
         contadorAuxiliar,
         objAux3
     })
 }
-const buscarPorTipoEnfermedad = async (idd,busqueda='', req,res=response) =>{
+const buscarPorTipoEnfermedad = async (busqueda='', req,res=response) =>{
     const id = req.usuario._id;
-    let limite = idd*20;
-    let salto = limite-20;
 
-    const [ publicacion, count, countTotal] = await Promise.all([
+    const [ publicacion, count] = await Promise.all([
         Publicacion.find({
             $or:[{estado: true}],
         })
         .populate('usuario')
-        .sort({_id:-1})
-        .skip (Number(salto))
-        .limit(Number(20)),
-        Publicacion.countDocuments({
-            $or:[{estado: true}]
-        })
-        .skip (Number(salto))
-        .limit(Number(20)),
+        .sort({_id:-1}),
         Publicacion.countDocuments({
             $or:[{estado: true}]
         })
     ])
-
     const likes = await Like.find({
         $or:[{ usuarioPublicacion: ObjectId(id)}],
         $and:[{estado:true}]
@@ -827,9 +771,7 @@ const buscarPorTipoEnfermedad = async (idd,busqueda='', req,res=response) =>{
             contadorAuxiliar++;
         }
     }
-
     res.json({
-        countTotal,
         contadorAuxiliar,
         objAux3
     })
@@ -1509,8 +1451,8 @@ const buscarContarPorEnfermedad = async (c,req,res) =>{
     })
 }
 const buscar = async( req, res= response) =>{
-    const { idd,id,parametro } = req.params;
-
+    
+    const { id,parametro } = req.params;
     const token = req.header('x-token');
     if(!token){
         return res.json({
@@ -1537,19 +1479,19 @@ const buscar = async( req, res= response) =>{
             mostrarTodasLasPublicaciones(id,req,res);//.....
         break;
         case 'mostrarPublicacionesDelUsuarioX':
-            mostrarPublicacionesDelUsuarioX(id,req,res);//......../
+            mostrarPublicacionesDelUsuarioX(req,res);//......../
         break;
         case 'buscarLikeUsuariox':
-            buscarLikeUsuariox(id,req,res);//.........../
+            buscarLikeUsuariox(req,res);//.........../
         break;
         case 'buscarCompartirUsusriox':
-            buscarCompartirUsusriox(id,req,res);//......../
+            buscarCompartirUsusriox(req,res);//......../
         break;
         case 'buscarConParametroX':
-            buscarConParametroX(idd,id,req,res);//......./
+            buscarConParametroX(id,req,res);//......./
         break;
         case 'buscarPorTipoEnfermedad':
-            buscarPorTipoEnfermedad(idd,id,req,res);//.........
+            buscarPorTipoEnfermedad(id,req,res);//.........
         break;
         case 'buscarComentarioDePublicacionX':
             buscarComentarioDePublicacionX(id,req,res);
