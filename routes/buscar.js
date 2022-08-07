@@ -7,7 +7,7 @@ const { check } = require("express-validator");
 
 const router = Router();
 
-router.get('/:parametro/:id',[
+router.get('/:parametro/:id/:idd',[
     validarJWT,
 ],buscar);
 
