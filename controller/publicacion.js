@@ -76,8 +76,7 @@ const actualizarPublicacion = async ( req, res = response) =>{
     resto.descripcion = resto.descripcion.toUpperCase();
     resto.contenido = resto.contenido.toUpperCase();
     resto.usuario = req.usuario._id;
-    
-
+    resto.fecha = new Date();
     const publicacion = await Publicacion.findByIdAndUpdate(id, resto, {new: true})
 
     res.status(200).json({
