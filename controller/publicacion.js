@@ -63,22 +63,18 @@ const registraPublicaciones = async( req, res = response) =>{
 const actualizarPublicacion = async ( req, res = response) =>{
     
     const { id } = req.params;
-
     const publicacionAux=await Publicacion.findById(id)
     if(!publicacionAux.estado){
         return res.json({
             msg:'No existe la publicacion'
         })
     }
-
     const { estado, usuario, ... resto } = req.body;
-
     resto.descripcion = resto.descripcion.toUpperCase();
     resto.contenido = resto.contenido.toUpperCase();
     resto.usuario = req.usuario._id;
     resto.fecha = new Date();
     const publicacion = await Publicacion.findByIdAndUpdate(id, resto, {new: true})
-
     res.status(200).json({
         publicacion
     })
