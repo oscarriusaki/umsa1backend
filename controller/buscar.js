@@ -2,6 +2,7 @@ const { response } = require("express");
 const res = require("express/lib/response");
 const { Publicacion,Like, Compartir, Comentario, Reportar, ReportarComentario, Usuario } = require("../models");
 const { ObjectId } = require('mongoose').Types;
+const bcryptjs = require('bcryptjs');
 
 const permitidos = [
     "likePublicacion",
@@ -23,6 +24,7 @@ const permitidos = [
     "buscarLikeUsuariox1",
     "buscarCompartirUsusriox1",
     "mostrarPublicacionesDelUsuarioX1",
+    "actualizarPassword",
 ];
 const enfermedadesV={
     'ÁNTRAX':0,
@@ -1450,6 +1452,31 @@ const buscarContarPorEnfermedad = async (c,req,res) =>{
         data
     })
 }
+const actualizarPassword = async (id, req, res=response) => {
+    // modificar con put
+    const usuario = req.usuario;
+    const { password } = req.body;
+    try{    
+        validarPassword = bcryptjs.compareSync(id, usuario.password);
+        if(validarPassword){
+            const salt = bcryptjs.genSaltSync();
+            const pass = bcryptjs.hashSync(password, salt);
+            const update = await Usuario.findByIdAndUpdate(usuario._id, {password:pass}, {new:true});
+            return res.json({
+                update
+            })
+        }else{
+            return res.json({
+                msg: 'El password incorrecto'
+            })
+        }
+    }catch(err){
+        console.log(err);
+        res.json({
+            msg:'error al modificar el password'
+        })
+    }
+}
 const buscar = async( req, res= response) =>{
     
     const { id,parametro } = req.params;
@@ -1522,6 +1549,9 @@ const buscar = async( req, res= response) =>{
         break;
         case 'mostrarPublicacionesDelUsuarioX1':
             mostrarPublicacionesDelUsuarioX1(id,req,res);
+        break;
+        case 'actualizarPassword':
+            actualizarPassword(id,req,res);
         break;
 
         default:
