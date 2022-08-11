@@ -10,5 +10,8 @@ const router = Router();
 router.get('/:parametro/:id',[
     validarJWT,
 ],buscar);
+router.put('/:parametro/:id',[
+    validarJWT,
+],buscar);
 
 module.exports = router;
