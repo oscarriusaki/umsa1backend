@@ -1467,7 +1467,7 @@ const actualizarPassword = async (id, req, res=response) => {
             })
         }else{
             return res.json({
-                msg: 'El password incorrecto'
+                msg: 'Antigua contraseña incorrecto'
             })
         }
     }catch(err){
