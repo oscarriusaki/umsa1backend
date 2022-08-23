@@ -3,6 +3,7 @@ const res = require("express/lib/response");
 const { Publicacion,Like, Compartir, Comentario, Reportar, ReportarComentario, Usuario } = require("../models");
 const { ObjectId } = require('mongoose').Types;
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken')
 
 const permitidos = [
     "likePublicacion",
@@ -25,6 +26,7 @@ const permitidos = [
     "buscarCompartirUsusriox1",
     "mostrarPublicacionesDelUsuarioX1",
     "actualizarPassword",
+    "validarToken",
 ];
 const enfermedadesV={
     'ÁNTRAX':0,
@@ -1477,6 +1479,54 @@ const actualizarPassword = async (id, req, res=response) => {
         })
     }
 }
+const validarToken = async ( req,res = response) => {
+    const token = req.header('x-token');
+    if(!token){
+        return res.status(400).json({
+            msg:'El token no se ha enviado'
+        })
+    }
+// ESTO TAMBIEN VERIFICA QUE EL JWT EXPIRA
+        jwt.verify(token, process.env.SECRETORPRIVATEKEY,(err,decode) =>{
+            if(err){
+                console.log(err)
+                console.log('SI ESTA ')
+                return res.json({
+                    msg:'expiro'
+                })
+            }
+            console.log('todo ok');
+            return res.json({
+                msg:'todo ok'
+            })
+        });
+    /* try{
+        
+        const { uid } = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
+        const usuario = await Usuario.findById(uid);
+        if(!usuario){
+            return res.status(400).json({
+                msg:'El usuario no existe en la base de datos'
+            })
+        }
+        if(!usuario.estado){
+            return res.status(400).json({
+                msg:'El usuario del token esta con estado false'
+            })
+        }
+
+       req.usuario = usuario;
+       next();
+
+    }catch (err) {
+        // AQUI VERIFICA QUE EXPIRA EL TOKEN Y OTROS ERRORES
+        console.log(err);
+        return res.json({
+            msg:'expiro'
+        })
+    } */
+
+}
 const buscar = async( req, res= response) =>{
     
     const { id,parametro } = req.params;
@@ -1552,6 +1602,9 @@ const buscar = async( req, res= response) =>{
         break;
         case 'actualizarPassword':
             actualizarPassword(id,req,res);
+        break;
+        case 'validarToken':
+            validarToken(req,res);
         break;
 
         default:
