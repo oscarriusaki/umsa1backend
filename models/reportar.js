@@ -24,6 +24,8 @@ const SchemaReportar = Schema({
         required:true
     }
 
+}, {
+    versionKey: false
 })
 
 

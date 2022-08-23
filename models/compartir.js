@@ -17,6 +17,8 @@ const SchemaCompartir = Schema({
         required: true,
         default: true
     }
+}, {
+    versionKey: false 
 })
 
 SchemaCompartir.methods.toJSON = function () {

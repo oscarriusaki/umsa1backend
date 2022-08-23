@@ -66,12 +66,8 @@ const SchemaPublicaicon= Schema({
         default: false
     }
     
-},{
-    // 
-    versionKey:false,
-    // Este sirve para ver cuando se ha creado el modelo y cuando se ha actualizado
-    timestamps:true,
-    
+}, {
+    versionKey: false 
 })
 
 SchemaPublicaicon.methods.toJSON = function(){

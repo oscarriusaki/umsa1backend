@@ -31,6 +31,8 @@ const LikeSchema = Schema({
         default: true
     }
     
+}, {
+    versionKey: false 
 })
 
 LikeSchema.methods.toJSON = function () {

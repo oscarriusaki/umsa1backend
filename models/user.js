@@ -41,7 +41,8 @@ const UsuarioSchema = Schema({
         required:[true,'El motivo es requerido'],
         default:''
     }
-
+}, {
+    versionKey: false
 })
 
 UsuarioSchema.methods.toJSON= function(){

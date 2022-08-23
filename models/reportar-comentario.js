@@ -20,6 +20,8 @@ const SchemaReportarComentario = Schema({
         required:true
     }
 
+}, {
+    versionKey: false
 })
 
 

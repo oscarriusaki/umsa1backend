@@ -50,6 +50,8 @@ const SchemaComnetario = Schema({
         required:true
     },
 
+}, {
+    versionKey: false 
 })
 
 SchemaComnetario.methods.toJSON = function (){
