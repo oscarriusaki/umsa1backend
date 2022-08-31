@@ -4,7 +4,6 @@ const { registraPublicaciones, actualizarPublicacion, eliminarPublicacion, mostr
 const { validarIdPublicacion } = require('../helpers/validar-campo-publicacion');
 const { validarJWT } = require('../middlewares/validarJWT');
 const { validar } = require('../middlewares/verifica');
-const { validarRoles } = require('../middlewares/validarRoles');
 
 const router = Router();
 

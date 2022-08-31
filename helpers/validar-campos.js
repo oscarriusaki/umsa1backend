@@ -1,11 +1,5 @@
-const { Rol, Usuario } = require('../models');
+const { Usuario } = require('../models');
 
-const existeRol = async( rol ) =>{
-    const existe = await Rol.findOne({ rol });
-    if(!existe){
-        return new Error('El rol no esta registrado en la base de datos')
-    }
-}
 const existeCorreo = async (correo = '') =>{
     
     const existe = await Usuario.findOne({ correo });
@@ -22,7 +16,6 @@ const existeId = async ( id ) =>{
 }
 
 module.exports = {
-    existeRol,
     existeCorreo,
     existeId
 }

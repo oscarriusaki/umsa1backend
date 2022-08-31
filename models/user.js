@@ -27,11 +27,6 @@ const UsuarioSchema = Schema({
         type: String,
         required:[true,'El password es requerido']
     },
-    rol:{
-        type: String,
-        required: true,
-        emu:['USER_ROL']
-    },
     fecha:{
         type: Date,
         required:[true,'La fecha es requerida']
@@ -51,4 +46,4 @@ UsuarioSchema.methods.toJSON= function(){
     return resto;
 }
 
-module.exports = model('User', UsuarioSchema)
+module.exports = model('User', UsuarioSchema);

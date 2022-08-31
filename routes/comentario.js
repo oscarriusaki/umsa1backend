@@ -4,7 +4,6 @@ const { crearComentario, actualizarComentario, eliminarComentario, mostrarComent
 const { validarIdPublicacion } = require('../helpers/validar-campo-publicacion');
 const { validarIdcomentario } = require('../helpers/validar-id-comentario');
 const { validarJWT } = require('../middlewares/validarJWT');
-const { validarRoles } = require('../middlewares/validarRoles');
 const { validar } = require('../middlewares/verifica');
 
 const router = Router();
