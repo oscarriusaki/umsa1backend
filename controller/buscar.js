@@ -700,7 +700,7 @@ const buscarConParametroX = async(busqueda='',req,res=response) =>{
     let contadorAuxiliar=0;
     for (const iterator of objAux) {
         const parametroAuxiliar = await new Publicacion(iterator)
-        const dato = iterator.descripcion.toUpperCase();
+        const dato = (iterator.descripcion.toUpperCase()).normalize('NFD').replace(/[\u0300-\u036f]/g,"");
         if(dato.includes(busqueda.toUpperCase())){
             objAux3.push(parametroAuxiliar);
             contadorAuxiliar++;
